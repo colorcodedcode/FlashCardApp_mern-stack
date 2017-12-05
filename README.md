@@ -29,6 +29,7 @@ The product is meant to be a more fun testing mechanic than most other tools whi
 - Ideally React to build the app
 - Ideally MongoDB to manage data
 - If not possible fallback to known technologies should be possible
+- Try different code editor: Visual Studio Code
 
 #### Research Needs
 - React, Redux, MongoDB
