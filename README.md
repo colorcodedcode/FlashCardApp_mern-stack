@@ -13,11 +13,11 @@ The product is meant to be a more fun testing mechanic than most other tools whi
 - Correct and false answers are tracked and questions with false errors should appear more frequently
 
 ### Timeline
-- [05-12] Rough draft of spec
-- [08-12] Finish Codecademy and part of Treehouse courses on React and Mongo
-- [08-12] Revisit spec and determine feasibility of using new tech vs. say Express/PG
-- [09-12] Rough design of app implemented
-- [14-12] MVP: Functionally working with one user and a hand full of cards
+- [05-12] [v] Rough draft of spec
+- [08-12] [ ] Finish Codecademy and part of Treehouse courses on React and Mongo
+- [08-12] [ ] Revisit spec and determine feasibility of using new tech vs. say Express/PG
+- [09-12] [v] Rough design of app implemented
+- [14-12] [ ] MVP: Functionally working with one user and a hand full of cards
 
 ### Broad Design Spec
 - Signup and login page with remember and i-forgot options
