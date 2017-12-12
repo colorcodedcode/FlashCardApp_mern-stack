@@ -17,5 +17,6 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-scripts": "^1.0.17"
-  }
+  },
+  "proxy": "http://localhost:3000"
 }

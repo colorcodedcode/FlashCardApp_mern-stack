@@ -11,7 +11,7 @@ const userData = {
     goal: 100
   },
   level: 5,
-  rate: 0.92
+  rate: 0.928
 }
 
 class App extends React.Component {
@@ -42,10 +42,8 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Header />
-        <main role="main">
-          <Test changeScore={this.changeScore.bind(this)}/>
-        </main>
+        <Header />        
+        <Test changeScore={this.changeScore.bind(this)}/>
         <Footer user={this.state.user}/>
       </div>
     );
