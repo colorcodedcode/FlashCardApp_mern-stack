@@ -5,6 +5,7 @@ const myport = process.env.PORT || 3000;
 const bodyParser = require('body-parser');
 
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use(express.static('public'));
 app.listen(myport, () => console.log(`Now listening on port ${myport}`));
 
@@ -23,17 +24,7 @@ const Populate = require('./models/populate');
 // Populate.setupQuestions();
 // mongoose.connection.dropDatabase();
 
-const userStats = [{
-    questionId: 'id',
-    timesTested: 100,
-    timesCorrect: 70,
-    rate: 0.7
-}]
-
-// tier1 - 100-051
-// tier2 - 050-001
-// tier3 - 000
-
+//Routes
 app.get('/cards', (req, res) => {
     Question.find().then(result => {
         res.json(result);
@@ -41,8 +32,12 @@ app.get('/cards', (req, res) => {
 });
 
 app.get('/stats', (req, res) => {
-    User.findOne({ name: 'Robert' }, 'name xp level rate').then(result => {
+    User.findOne({ name: 'Robert' }).select('-password -email').then(result => {
         res.json(result);
     })
 });
 
+app.post('/stats', (req, res) => {
+    console.log(req);
+    res.json('someshite')
+});

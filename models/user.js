@@ -10,7 +10,8 @@ const UserSchema = Schema({
         goal: {type: Number, default: 100 }
     },
     level: { type: Number, default: 3 },
-    rate: { type: Number, default: 1 },
+    timesTested: { type: Number, default: 1 },
+    timesCorrect: { type: Number, default: 1 },
     stats: { type: Array, default: [] }
 })
 
@@ -26,3 +27,15 @@ UserSchema.statics.new = (name, password, email) => {
 // Users defined here as setting UserSchema > add method will fail
 const User = mongoose.model('Users', UserSchema);
 module.exports = User;
+
+
+const userStats = [{
+    questionId: 'id',
+    timesTested: 100,
+    timesCorrect: 70,
+    rate: 0.7
+}]
+
+// tier1 - 100-051
+// tier2 - 050-001
+// tier3 - 000

@@ -7,15 +7,28 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      user: { name: '', xp: { current: '', goal: ''}, level: '', rate: ''}
+      user: { 
+        name: '', xp: { current: '', goal: ''}, timestTested: '', timesCorrect: '', level: ''
+      }
     }
   }
 
   componentWillMount() {
-    console.log('starting fetch stats')
     fetch('/stats',)
       .then(res => res.json())
-      .then(data => this.setState({ user: data }))
+      .then(data => {
+        this.setState({ user: data })
+      })
+  }
+
+  updatePlayerStats(newStats) {
+    fetch('/stats', { 
+      method: 'post',
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({bla: 'somebullshit'})
+    })
+    .then(res => res.json())
+    .then(console.log)
   }
 
   changeScore(score) {
@@ -36,14 +49,15 @@ class App extends React.Component {
   }
 
   render() {
+    this.updatePlayerStats()
     return (
       <div>
-        <Header />        
+        <Header />      
         <Test changeScore={this.changeScore.bind(this)}/>
         <Footer user={this.state.user}/>
       </div>
-    );
-  }
+    )
+  };
 }
 
 export default App;

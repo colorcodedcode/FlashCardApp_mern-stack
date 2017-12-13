@@ -8,7 +8,7 @@ const Footer = props =>
         ${props.user.level} - 
         ${props.user.xp.current}/
         ${props.user.xp.goal} XP - 
-        ${Math.floor(props.user.rate*100)}%`
+        ${Math.floor(props.user.timesCorrect / props.user.timesTested * 100)}%`
       }</p>
     </section>
   </footer>
