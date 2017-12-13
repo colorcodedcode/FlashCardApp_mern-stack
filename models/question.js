@@ -3,15 +3,17 @@ const Schema = mongoose.Schema;
 
 const QuestionSchema = Schema({
     category: String,
+    identifier: String,
     question: String,
     answer_a: String,
     answer_b: String,
     right_answer: String
 })
 
-QuestionSchema.statics.new = (category, question, answer_a, answer_b, right_answer) => {
+QuestionSchema.statics.new = (category, identifier, question, answer_a, answer_b, right_answer) => {
     let record = new Question({
         category: category,
+        identifier: identifier,
         question: question,
         answer_a: answer_a,
         answer_b: answer_b,

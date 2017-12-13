@@ -1,14 +1,27 @@
 const Question = require('../models/question');
 const User = require('../models/user');
 
+// Random Stat Generator
+const generateStats = array => {
+    for (let i = 0; i < 10; i++) {
+        array.push({
+            identifier: `wtr${i+1}`,
+            timesTested: 100,
+            timesCorrect: Math.floor((Math.random() * 100) + 1),
+        });
+    }
+    return array
+}
+
 // Populate Default Users
 exports.setupUsers = () => {
-    User.new(`Robert`, `admin`, `robertjschaap@gmail.com`);
+    User.new(`Robert`, `admin`, `robertjschaap@gmail.com`, generateStats([]));
 }
 
 // Populate Default Questions
 exports.setupQuestions = () => {
-    Question.new(`Weather`, `Today, is it snowing or raining?`, `It's snowing`, `It's raining`, 'A');
-    Question.new(`Weather`, `Is the sun out or not?`, `I can see it with my bare eyes (for now)`, `It may be out there somewhere`, 'A');
-    Question.new(`Weather`, `Is snow white or black?`, `Definitely black`, `Most certainly white`, 'B');
+    for (let i = 0; i < 10; i++) {
+        Question.new(`Weather`, `wtr${i+1}`, `Question${i+1}`, `Answer A${i+1}`, `Answer B${i+1}`, 'A');
+    }
 }
+

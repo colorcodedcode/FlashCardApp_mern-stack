@@ -15,11 +15,12 @@ const UserSchema = Schema({
     stats: { type: Array, default: [] }
 })
 
-UserSchema.statics.new = (name, password, email) => {
+UserSchema.statics.new = (name, password, email, stats) => {
     let record = new User({
         name: name,
         password: password,
-        email: email
+        email: email,
+        stats: stats
     });
     record.save(err => err ? err : console.log('inserted user'));
 }
@@ -27,15 +28,3 @@ UserSchema.statics.new = (name, password, email) => {
 // Users defined here as setting UserSchema > add method will fail
 const User = mongoose.model('Users', UserSchema);
 module.exports = User;
-
-
-const userStats = [{
-    questionId: 'id',
-    timesTested: 100,
-    timesCorrect: 70,
-    rate: 0.7
-}]
-
-// tier1 - 100-051
-// tier2 - 050-001
-// tier3 - 000

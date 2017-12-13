@@ -38,6 +38,6 @@ app.get('/stats', (req, res) => {
 });
 
 app.post('/stats', (req, res) => {
-    console.log(req);
+    console.log(req.body);
     res.json('someshite')
 });
