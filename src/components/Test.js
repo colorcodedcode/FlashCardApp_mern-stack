@@ -19,9 +19,7 @@ class Test extends React.Component {
   componentWillMount() {
     fetch('/cards')
       .then(res => res.json())
-      .then(data => {
-        this.setState({ questions: data })
-      })
+      .then(data => this.setState({ questions: data }))
   }
   
   toggleResult() {

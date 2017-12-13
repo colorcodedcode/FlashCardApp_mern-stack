@@ -3,23 +3,19 @@ import Header from './Header';
 import Test from './Test';
 import Footer from './Footer';
 
-const userData = {
-  id: 1,
-  name: 'Robert',
-  xp: {
-    current: 50,
-    goal: 100
-  },
-  level: 5,
-  rate: 0.928
-}
-
 class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      user: userData
+      user: { name: '', xp: { current: '', goal: ''}, level: '', rate: ''}
     }
+  }
+
+  componentWillMount() {
+    console.log('starting fetch stats')
+    fetch('/stats',)
+      .then(res => res.json())
+      .then(data => this.setState({ user: data }))
   }
 
   changeScore(score) {
@@ -48,6 +44,6 @@ class App extends React.Component {
       </div>
     );
   }
-  }
+}
 
-  export default App;
+export default App;

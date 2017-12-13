@@ -36,7 +36,13 @@ const userStats = [{
 
 app.get('/cards', (req, res) => {
     Question.find().then(result => {
-        console.log(result)
         res.json(result);
     })
 });
+
+app.get('/stats', (req, res) => {
+    User.findOne({ name: 'Robert' }, 'name xp level rate').then(result => {
+        res.json(result);
+    })
+});
+
