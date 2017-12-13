@@ -14,8 +14,8 @@ The product is meant to be a more fun testing mechanic than most other tools whi
 
 ### Timeline
 - [05-12] [v] Rough draft of spec
-- [08-12] [ ] Finish Codecademy and part of Treehouse courses on React and Mongo
-- [08-12] [ ] Revisit spec and determine feasibility of using new tech vs. say Express/PG
+- [08-12] [v] Finish Codecademy and part of Treehouse courses on React and Mongo
+- [08-12] [v] Revisit spec and determine feasibility of using new tech vs. say Express/PG
 - [09-12] [v] Rough design of app implemented
 - [14-12] [ ] MVP: Functionally working with one user and a hand full of cards
 
