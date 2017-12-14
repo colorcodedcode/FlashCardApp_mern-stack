@@ -1,3 +1,4 @@
+const Question = require('./question');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
@@ -24,6 +25,15 @@ UserSchema.statics.new = (name, password, email, stats) => {
     });
     record.save(err => err ? err : console.log('inserted user'));
 }
+
+UserSchema.virtual('questions', {
+    ref: 'Questions',
+    localField: 'stats.identifier',
+    foreignField: 'identifier',
+})
+
+UserSchema.set('toObject', { virtuals: true });
+UserSchema.set('toJSON', { virtuals: true });
 
 // Users defined here as setting UserSchema > add method will fail
 const User = mongoose.model('Users', UserSchema);

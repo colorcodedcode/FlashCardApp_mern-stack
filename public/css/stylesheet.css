@@ -95,7 +95,7 @@ footer {
 /*Media Queries*/
 @media (max-width: 500px) {
   body {
-    width: 95%
+    width: 95%;
   }
   header {
     margin-bottom: 0rem;

@@ -1,9 +1,10 @@
 const Question = require('../models/question');
 const User = require('../models/user');
+const defaultAmount = 100
 
 // Random Stat Generator
 const generateStats = array => {
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < defaultAmount; i++) {
         array.push({
             identifier: `wtr${i+1}`,
             timesTested: 100,
@@ -20,7 +21,7 @@ exports.setupUsers = () => {
 
 // Populate Default Questions
 exports.setupQuestions = () => {
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < defaultAmount; i++) {
         Question.new(`Weather`, `wtr${i+1}`, `Question${i+1}`, `Answer A${i+1}`, `Answer B${i+1}`, 'A');
     }
 }
