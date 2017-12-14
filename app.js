@@ -67,10 +67,13 @@ app.get('/stats', (req, res) => {
     User.findOne({ name: 'Robert' })
         .select('-password -email')
         .then(result => {
-            res.json(result);
+            result.timesCorrect = result.stats.reduce((a, i) => a + i.timesCorrect, 0)
+            result.timesTested = result.stats.reduce((a, i) => a + i.timesTested, 0)
+            return result
         })
+        .then(result => res.json(result));
 });
-
+    
 app.post('/stats', (req, res) => {
     console.log(req.body);
     res.json('someshite')

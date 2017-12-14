@@ -10,9 +10,9 @@ const UserSchema = Schema({
         current: { type: Number, default: 10 },
         goal: {type: Number, default: 100 }
     },
-    level: { type: Number, default: 3 },
-    timesTested: { type: Number, default: 1 },
-    timesCorrect: { type: Number, default: 1 },
+    level: { type: Number, default: 0 },
+    timesTested: { type: Number, default: 0 },
+    timesCorrect: { type: Number, default: 0 },
     stats: { type: Array, default: [] }
 })
 
@@ -25,15 +25,6 @@ UserSchema.statics.new = (name, password, email, stats) => {
     });
     record.save(err => err ? err : console.log('inserted user'));
 }
-
-UserSchema.virtual('questions', {
-    ref: 'Questions',
-    localField: 'stats.identifier',
-    foreignField: 'identifier',
-})
-
-UserSchema.set('toObject', { virtuals: true });
-UserSchema.set('toJSON', { virtuals: true });
 
 // Users defined here as setting UserSchema > add method will fail
 const User = mongoose.model('Users', UserSchema);
