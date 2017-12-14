@@ -28,6 +28,8 @@ const Populate = require('./models/populate');
 app.get('/cards', (req, res) => {
     User.findOne({ name: 'Robert' })
     .select('stats')
+
+    // calculate which cards user is good at (t1) and bad at (t2)
     .then(result => {
         result.stats.forEach(e => 
             e.timesCorrect/e.timesTested > 0.5 
@@ -36,6 +38,8 @@ app.get('/cards', (req, res) => {
         )
         return result.stats;
     })
+
+    // split tier results and rejoin random selection (40% good, 60% bad cards)
     .then(result => {
         let tier1 = result.filter(e => e.rate === 'tier1' )
         let tier2 = result.filter(e => e.rate === 'tier2' )
@@ -44,6 +48,13 @@ app.get('/cards', (req, res) => {
             ...Array.from({length: 6}, () => tier2[Math.floor(Math.random() * tier2.length)].identifier)
         ]
     })
+
+    // shuffle results
+    .then(result =>
+        result.sort(() => (Math.random() - 0.5))
+    )
+
+    // find questions based on shuffled array
     .then(result => 
         Question.find().where('identifier').in(result)
     )
