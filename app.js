@@ -44,8 +44,8 @@ app.get('/cards', (req, res) => {
         let tier1 = result.filter(e => e.rate === 'tier1' )
         let tier2 = result.filter(e => e.rate === 'tier2' )
         return [
-            ...Array.from({length: 4}, () => tier1[Math.floor(Math.random() * tier1.length)].identifier),
-            ...Array.from({length: 6}, () => tier2[Math.floor(Math.random() * tier2.length)].identifier)
+            ...Array.from({length: 12}, () => tier1[Math.floor(Math.random() * tier1.length)].identifier),
+            ...Array.from({length: 18}, () => tier2[Math.floor(Math.random() * tier2.length)].identifier)
         ]
     })
 
@@ -69,13 +69,28 @@ app.get('/stats', (req, res) => {
         .then(result => {
             result.timesCorrect = result.stats.reduce((a, i) => a + i.timesCorrect, 0)
             result.timesTested = result.stats.reduce((a, i) => a + i.timesTested, 0)
+            result.level = Math.floor(result.timesCorrect * 10 / 250)
             return result
         })
         .then(result => res.json(result));
 });
     
 app.post('/stats', (req, res) => {
-    console.log(req.body);
-    res.json('someshite')
-});
+    console.log(req.body)
+    User.findOne({ name: 'Robert' })
+    .then(result => {
+        let index = result.stats.findIndex(e => e.identifier === req.body.identifier )
+        let record = result.stats[index]
+        console.log(record)
 
+        result.stats.set(index, {
+            identifier: record.identifier,
+            timesTested: record.timesTested +=1,
+            timesCorrect: req.body.passed ? record.timesCorrect +=1 : record.timesCorrect
+        })
+
+        result.save(err => err ? err : console.log('updated record'))
+        console.log(result.stats[index])
+    })
+    res.json('updated')
+});

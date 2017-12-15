@@ -25,9 +25,11 @@ h1 {
   padding-bottom: 1rem;
   border-bottom: 1px solid black;
 }
-#answer_a_button, #answer_b_button, #next_button {
+#answer_a_button, #answer_b_button, #next_button, #login button {
   border: none;
   background-color: #ffcc66;
+  border-radius: 5px;
+  border-bottom: 2px solid #e6e6e6;
   color: white;
   padding: 0.5rem;
   width: 100%;
@@ -92,6 +94,21 @@ footer {
   border-bottom: 1px solid black;
 }
 
+/* Forms  */
+#login {
+  padding: 1rem;
+  width: 50%
+}
+#login label, #login input, #login button {
+  display: block;
+  width: 100%;
+}
+#login input {
+  margin-bottom: 0.5rem;
+  padding: 0.5rem 0.5rem;
+  border: none;
+}
+
 /*Media Queries*/
 @media (max-width: 500px) {
   body {
@@ -103,6 +120,12 @@ footer {
   h1 {
     font-size: 2rem;
     padding-bottom: 0.5rem
+  }
+  #test_body p {
+    min-height: 2rem;
+  }
+  #answer_a, #answer_b {
+    width: 100%;
   }
 }
 

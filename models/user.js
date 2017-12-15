@@ -8,11 +8,11 @@ const UserSchema = Schema({
     email: String,
     xp: {
         current: { type: Number, default: 10 },
-        goal: {type: Number, default: 100 }
+        goal: {type: Number, default: 250 }
     },
-    level: { type: Number, default: 0 },
-    timesTested: { type: Number, default: 0 },
-    timesCorrect: { type: Number, default: 0 },
+    level: { type: Number, default: 3 },
+    timesTested: { type: Number, default: 1 },
+    timesCorrect: { type: Number, default: 1 },
     stats: { type: Array, default: [] }
 })
 

@@ -8,15 +8,16 @@ class Test extends React.Component {
     this.state = {
       questions: [],
       questionIndex: 0,
-      questionCurrent: { category: '', question: '', answer_a: '', answer_b: '', right_answer: ''},
+      questionCurrent: { category: '', identifier: '', question: '', answer_a: '', answer_b: '', right_answer: ''},
       showAnswer: false,
+      cardCount: 0
     };
   }
 
   componentWillMount() {
     fetch('/cards')
       .then(res => res.json())
-      .then(data => { 
+      .then(data => {
         this.setState({ 
           questions: data,
           questionIndex: 0,
@@ -31,9 +32,11 @@ class Test extends React.Component {
     })
   }
 
-  validateAnswer(answer) {
+  validateAnswer(answer, id) {
     if (answer.target.value === this.state.questionCurrent.right_answer ) {
-      this.props.changeScore(10)
+      this.props.changeScore(10, this.state.questionCurrent.identifier);
+    } else {
+      this.props.changeScore(0, this.state.questionCurrent.identifier);
     }
     this.toggleResult();
   }
@@ -47,7 +50,8 @@ class Test extends React.Component {
     } else {
       this.setState({ 
         questionIndex: this.state.questionIndex + 1,
-        questionCurrent: this.state.questions[this.state.questionIndex + 1]
+        questionCurrent: this.state.questions[this.state.questionIndex + 1],
+        cardCount: this.state.cardCount + 1
       })
     }
     this.toggleResult()
@@ -61,7 +65,6 @@ class Test extends React.Component {
       correctAnswer = this.state.questionCurrent.answer_b;
     }
 
-    // the conditional render of the testanswer/question is not pretty, consider changing it later
     return (
       <main role="main">
         <section id="test_container">
