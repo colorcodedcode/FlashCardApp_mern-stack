@@ -96,7 +96,7 @@ footer {
 
 /* Forms  */
 #login {
-  padding: 1rem;
+  padding: 1.1rem;
   width: 50%
 }
 #login label, #login input, #login button {
@@ -126,6 +126,9 @@ footer {
   }
   #answer_a, #answer_b {
     width: 100%;
+  }
+  #login {
+    width: 100%
   }
 }
 

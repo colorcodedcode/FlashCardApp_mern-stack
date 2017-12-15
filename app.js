@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 const myport = process.env.PORT || 3000;
 const bodyParser = require('body-parser');
+const jwt = require('jsonwebtoken')
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -25,6 +26,25 @@ const Populate = require('./models/populate');
 // mongoose.connection.dropDatabase();
 
 //Routes
+app.post('/login', (req, res) => {
+    console.log(req.body)
+
+    User.findOne({ name: 'Robert' })
+    .then(result => {
+        console.log(result)
+        res.json({ 
+            token: jwt.sign({
+                email: result.email,
+                name: result.name,
+                id: result._id
+            }, 'uuddlrlrba13')
+        })
+    })
+});
+
+
+
+
 app.get('/cards', (req, res) => {
     User.findOne({ name: 'Robert' })
     .select('stats')
