@@ -1,4 +1,6 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
+
 
 class LoginPage extends React.Component {
 
@@ -6,7 +8,8 @@ class LoginPage extends React.Component {
     super()
     this.state = {
       email: '',
-      password: ''
+      password: '',
+      doRedirect: false
     }
   }
   handleChange(event) {
@@ -17,7 +20,7 @@ class LoginPage extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault()
-
+    
     fetch('/login', { 
       method: 'post',
       headers: { "Content-Type": "application/json" },
@@ -26,17 +29,25 @@ class LoginPage extends React.Component {
     .then(res => res.json())
     .then(result => {
       localStorage.setItem('chip', result.token)
-      this.props.history.push('/')
+      this.setState({ doRedirect: true })
     })
 
   }
 
   render() {
+    const doRedirect = this.state.doRedirect
+    if (doRedirect) {
+      this.props.checkAuth()
+      return (
+        <Redirect to='/' push/>
+      )
+    }
+
     return (
       <main role="main">
         <form id="login" onSubmit={this.handleSubmit.bind(this)}>
           <label>E-mail</label>
-          <input type="text" name="email" value={this.state.email} onChange={this.handleChange.bind(this)}/>
+          <input type="text" name="email" value={this.state.email} onChange={this.handleChange}/>
           <label>Password</label>
           <input type="password" name="password" value={this.state.password} onChange={this.handleChange.bind(this)}/>
           <button type="submit">Login</button>

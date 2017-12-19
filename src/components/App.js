@@ -14,31 +14,38 @@ class App extends React.Component {
       loggedIn: false
     })
   }
-  
-  
-  componentWillMount() {
-    const token = localStorage.getItem('chip');
-    if(token) {
+
+  checkAuth() {
+    if(localStorage.getItem('chip')) {
       this.setState({ loggedIn: true })
     }
   }
 
+  componentWillMount() {
+    this.checkAuth()
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps+'hi')
+  }
+
   render() {
+
     return (
       <BrowserRouter>
-        {
-          this.state.loggedIn
-          ? <div>
-              <Header auth={this.state.loggedIn} />
-              <Route exact path="/" component={TestPage} />
-            </div>
+        <div>
+          {
+            this.state.loggedIn
+            ? null
+            : <Redirect to='/login' push/>
+          }
+          <Header auth={this.state.loggedIn} />
 
-          : <div>
-              <Header auth={this.state.loggedIn}/>
-              <Redirect to="/login" push />
-              <Route exact path="/login" component={LoginPage} />
-            </div>
-        }
+          <Route exact path="/" component={TestPage} />
+          <Route path="/login" render={() => <LoginPage checkAuth={this.checkAuth.bind(this)} />} />
+          <Route path="/logout" component={LoginPage} />
+
+        </div>
       </BrowserRouter>
     )
   }

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Header = props =>
   <header role="heading">
@@ -6,8 +7,8 @@ const Header = props =>
       {
         props.auth 
         ? <nav>
-            <a href="/">Cards</a>
-            <a href="/logout">Logout</a>
+            <Link to="/">Cards</Link>
+            <Link to="/logout">Logout</Link>
           </nav>
         : <nav>
             Please log in below
