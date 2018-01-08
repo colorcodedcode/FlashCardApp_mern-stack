@@ -45,29 +45,25 @@ app.post('/login', (req, res) => {
     })
 });
 
-app.get('/verify', (req, res) => {
-    jwt.verify(token, 'uuddlrlrba13', function(err, decoded) {
-        if (err) {
-            console.log(err)
-        }
-    })
+// set this up to be used for app mount
+app.get('/verify', checkToken, (req, res) => {
     res.json({ status: 'verified'})
 })
 
-// do app.get('/cards', checkToken, ()=>{})
 function checkToken(req, res, next) {
-    const bearerHeader = req.headers['authorisation']
-    if (typeof bearerHeader !== 'undefined') {
-        const bearer = bearerHeader.split(' ');
-        const bearerToken = bearer[1];
-    } else {
-        res.json({ status: 'unauthorised'})
-    }
+    jwt.verify(req.headers.auth, 'uuddlrlrba13', (err, decoded) => {
+        if (err) {
+            res.sendStatus(403)
+            // console.log(err)
+            // next()
+        } else {
+            console.log(decoded)
+            next()
+        }
+    })
 }
 
-
-app.get('/cards', (req, res) => {
-    console.log(req.headers)
+app.get('/cards', checkToken, (req, res) => {
     User.findOne({ name: 'Robert' })
     .select('stats')
     // calculate which cards user is good at (t1) and bad at (t2)
@@ -101,7 +97,7 @@ app.get('/cards', (req, res) => {
     })
 });
 
-app.get('/stats', (req, res) => {
+app.get('/stats', checkToken, (req, res) => {
     User.findOne({ name: 'Robert' })
         .select('-password -email')
         .then(result => {
