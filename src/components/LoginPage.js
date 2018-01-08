@@ -30,6 +30,7 @@ class LoginPage extends React.Component {
     .then(result => {
       localStorage.setItem('chip', result.token)
       this.setState({ doRedirect: true })
+      this.props.checkAuth()
     })
 
   }
@@ -37,7 +38,6 @@ class LoginPage extends React.Component {
   render() {
     const doRedirect = this.state.doRedirect
     if (doRedirect) {
-      this.props.checkAuth()
       return (
         <Redirect to='/' push/>
       )
@@ -47,7 +47,7 @@ class LoginPage extends React.Component {
       <main role="main">
         <form id="login" onSubmit={this.handleSubmit.bind(this)}>
           <label>E-mail</label>
-          <input type="text" name="email" value={this.state.email} onChange={this.handleChange}/>
+          <input type="text" name="email" value={this.state.email} onChange={this.handleChange.bind(this)}/>
           <label>Password</label>
           <input type="password" name="password" value={this.state.password} onChange={this.handleChange.bind(this)}/>
           <button type="submit">Login</button>

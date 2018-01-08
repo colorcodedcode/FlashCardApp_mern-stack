@@ -27,28 +27,49 @@ const Populate = require('./models/populate');
 
 //Routes
 app.post('/login', (req, res) => {
-    console.log(req.body)
-
-    User.findOne({ name: 'Robert' })
+    User.findOne({ email: req.body.email })
     .then(result => {
-        console.log(result)
-        res.json({ 
-            token: jwt.sign({
-                email: result.email,
-                name: result.name,
-                id: result._id
-            }, 'uuddlrlrba13')
-        })
+        if (req.body.email === result.email && req.body.password === result.password) {
+            res.json({ 
+                token: jwt.sign({ 
+                    email: result.email, 
+                    name: result.name, 
+                    id: result._id }, 
+                    'uuddlrlrba13', 
+                    { expiresIn: 86400 }
+                )
+            })
+        } else {
+            res.send('error!')
+        }
     })
 });
 
+app.get('/verify', (req, res) => {
+    jwt.verify(token, 'uuddlrlrba13', function(err, decoded) {
+        if (err) {
+            console.log(err)
+        }
+    })
+    res.json({ status: 'verified'})
+})
 
+// do app.get('/cards', checkToken, ()=>{})
+function checkToken(req, res, next) {
+    const bearerHeader = req.headers['authorisation']
+    if (typeof bearerHeader !== 'undefined') {
+        const bearer = bearerHeader.split(' ');
+        const bearerToken = bearer[1];
+    } else {
+        res.json({ status: 'unauthorised'})
+    }
+}
 
 
 app.get('/cards', (req, res) => {
+    console.log(req.headers)
     User.findOne({ name: 'Robert' })
     .select('stats')
-
     // calculate which cards user is good at (t1) and bad at (t2)
     .then(result => {
         result.stats.forEach(e => 
@@ -58,7 +79,6 @@ app.get('/cards', (req, res) => {
         )
         return result.stats;
     })
-
     // split tier results and rejoin random selection (40% good, 60% bad cards)
     .then(result => {
         let tier1 = result.filter(e => e.rate === 'tier1' )
@@ -68,12 +88,10 @@ app.get('/cards', (req, res) => {
             ...Array.from({length: 18}, () => tier2[Math.floor(Math.random() * tier2.length)].identifier)
         ]
     })
-
     // shuffle results
     .then(result =>
         result.sort(() => (Math.random() - 0.5))
     )
-
     // find questions based on shuffled array
     .then(result => 
         Question.find().where('identifier').in(result)
@@ -96,12 +114,11 @@ app.get('/stats', (req, res) => {
 });
     
 app.post('/stats', (req, res) => {
-    console.log(req.body)
     User.findOne({ name: 'Robert' })
     .then(result => {
+
         let index = result.stats.findIndex(e => e.identifier === req.body.identifier )
         let record = result.stats[index]
-        console.log(record)
 
         result.stats.set(index, {
             identifier: record.identifier,
@@ -110,7 +127,6 @@ app.post('/stats', (req, res) => {
         })
 
         result.save(err => err ? err : console.log('updated record'))
-        console.log(result.stats[index])
     })
     res.json('updated')
 });

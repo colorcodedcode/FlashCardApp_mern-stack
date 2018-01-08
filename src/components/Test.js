@@ -14,8 +14,11 @@ class Test extends React.Component {
     };
   }
 
-  componentWillMount() {
-    fetch('/cards')
+  componentDidMount() {
+    const headers = new Headers()
+    headers.append('auth', localStorage.getItem('chip'))
+    
+    fetch('/cards', { headers: headers })
       .then(res => res.json())
       .then(data => {
         this.setState({ 

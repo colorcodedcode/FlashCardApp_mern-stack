@@ -13,8 +13,11 @@ class TestPage extends React.Component {
     }
   }
 
-  componentWillMount() {
-    fetch('/stats',)
+  componentDidMount() {
+    const headers = new Headers()
+    headers.append('auth', localStorage.getItem('chip'))
+
+    fetch('/stats', { headers: headers })
       .then(res => res.json())
       .then(data => {
         this.setState({ user: data })

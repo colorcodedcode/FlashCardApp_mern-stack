@@ -7,8 +7,8 @@ import TestPage from './TestPage';
 import LoginPage from './LoginPage'
 
 class App extends React.Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     
     this.state = ({
       loggedIn: false
@@ -25,19 +25,14 @@ class App extends React.Component {
     this.checkAuth()
   }
 
-  componentWillReceiveProps(nextProps) {
-    console.log(nextProps+'hi')
-  }
-
   render() {
-
     return (
       <BrowserRouter>
         <div>
           {
             this.state.loggedIn
             ? null
-            : <Redirect to='/login' push/>
+            : <Redirect to='/login' />
           }
           <Header auth={this.state.loggedIn} />
 
