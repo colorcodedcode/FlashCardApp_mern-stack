@@ -16,9 +16,19 @@ class App extends React.Component {
   }
 
   checkAuth() {
-    if(localStorage.getItem('chip')) {
-      this.setState({ loggedIn: true })
-    }
+    const headers = new Headers()
+    headers.append('auth', localStorage.getItem('chip'))
+
+    fetch('/verify', { headers: headers })
+      .then(res => {
+        if (res.status === 200) {
+          this.setState({ loggedIn: true })
+        } 
+      })
+  }
+
+  handleLogout() {
+    localStorage.clear()
   }
 
   componentWillMount() {
@@ -29,17 +39,18 @@ class App extends React.Component {
     return (
       <BrowserRouter>
         <div>
+          <Header auth={this.state.loggedIn} handleLogout={this.handleLogout.bind(this)}/>
           {
             this.state.loggedIn
-            ? null
-            : <Redirect to='/login' />
+            ? <div>
+                <Redirect to='/' />
+                <Route exact path="/" component={TestPage} />
+              </div>
+            : <div>
+                <Redirect to='/login' />
+                <Route path="/login" render={() => <LoginPage checkAuth={this.checkAuth.bind(this)} />} />
+              </div>
           }
-          <Header auth={this.state.loggedIn} />
-
-          <Route exact path="/" component={TestPage} />
-          <Route path="/login" render={() => <LoginPage checkAuth={this.checkAuth.bind(this)} />} />
-          <Route path="/logout" component={LoginPage} />
-
         </div>
       </BrowserRouter>
     )

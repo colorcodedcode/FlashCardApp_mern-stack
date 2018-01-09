@@ -1,7 +1,6 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 
-
 class LoginPage extends React.Component {
 
   constructor() {
@@ -36,6 +35,7 @@ class LoginPage extends React.Component {
   }
 
   render() {
+
     const doRedirect = this.state.doRedirect
     if (doRedirect) {
       return (

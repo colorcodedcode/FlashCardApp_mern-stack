@@ -8,7 +8,7 @@ const Header = props =>
         props.auth 
         ? <nav>
             <Link to="/">Cards</Link>
-            <Link to="/logout">Logout</Link>
+            <a href="/" onClick={props.handleLogout}>Logout</a>
           </nav>
         : <nav>
             Please log in below
