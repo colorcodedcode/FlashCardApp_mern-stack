@@ -17,7 +17,7 @@ class TestPage extends React.Component {
     const headers = new Headers()
     headers.append('auth', localStorage.getItem('chip'))
 
-    fetch('/stats', { headers: headers })
+    fetch('/api/stats', { headers: headers })
       .then(res => res.json())
       .then(data => {
         this.setState({ user: data })
@@ -25,7 +25,7 @@ class TestPage extends React.Component {
   }
 
   updatePlayerStats(id, pass) {
-    fetch('/stats', { 
+    fetch('/api/stats', { 
       method: 'post',
       headers: { 
         "Content-Type": "application/json" ,

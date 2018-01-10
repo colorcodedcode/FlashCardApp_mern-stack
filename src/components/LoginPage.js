@@ -20,7 +20,7 @@ class LoginPage extends React.Component {
   handleSubmit(event) {
     event.preventDefault()
     
-    fetch('/login', { 
+    fetch('/api/login', { 
       method: 'post',
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email: this.state.email, password: this.state.password })

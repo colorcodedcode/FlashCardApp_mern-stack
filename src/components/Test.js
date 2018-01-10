@@ -18,7 +18,7 @@ class Test extends React.Component {
     const headers = new Headers()
     headers.append('auth', localStorage.getItem('chip'))
     
-    fetch('/cards', { headers: headers })
+    fetch('/api/cards', { headers: headers })
       .then(res => res.json())
       .then(data => {
         this.setState({ 

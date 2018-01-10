@@ -38,7 +38,7 @@ function checkToken(req, res, next) {
 }
 
 //Routes
-app.post('/login', (req, res) => {
+app.post('/api/login', (req, res) => {
     User.findOne({ email: req.body.email })
     .then(result => {
         if (req.body.email === result.email && req.body.password === result.password) {
@@ -58,12 +58,12 @@ app.post('/login', (req, res) => {
 });
 
 // Verify route for initial mount of app
-app.get('/verify', checkToken, (req, res) => {
+app.get('/api/verify', checkToken, (req, res) => {
     res.json({ status: 'verified'})
 })
 
 // Fetch route in app for retrieving randomised cards
-app.get('/cards', checkToken, (req, res) => {
+app.get('/api/cards', checkToken, (req, res) => {
     User.findOne({ email: req.token.email })
     .select('stats')
     // calculate which cards user is good at (t1) and bad at (t2)
@@ -98,7 +98,7 @@ app.get('/cards', checkToken, (req, res) => {
 });
 
 // Fetch route in app for retrieving and posting user statistics
-app.get('/stats', checkToken, (req, res) => {
+app.get('/api/stats', checkToken, (req, res) => {
     User.findOne({ email: req.token.email })
         .select('-password -email')
         .then(result => {
@@ -110,7 +110,7 @@ app.get('/stats', checkToken, (req, res) => {
         .then(result => res.json(result));
 });
     
-app.post('/stats', checkToken, (req, res) => {
+app.post('/api/stats', checkToken, (req, res) => {
     User.findOne({ email: req.token.email })
     .then(result => {
 
