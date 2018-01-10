@@ -21,7 +21,7 @@ const generateStats = array => {
 
 // Populate Default Users
 exports.setupUsers = () => {
-    User.new(`Dummy`, `dummy`, `dummyuser@gmail.com`, generateStats([]));
+    User.new(`DummyUser`, `dummy`, `dummyuser@gmail.com`, generateStats([]));
 }
 
 // Populate Default Questions
