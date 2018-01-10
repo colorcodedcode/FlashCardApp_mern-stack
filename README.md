@@ -3,7 +3,7 @@ An application that tests users' knowledge on a series of topics, in this case H
 
 ##### Technologies
 HTML5 | CSS3 | JavaScript | Node.js | Express | React | MongoDB
-JWT | Body-Parser | Mongoose
+| JWT | Body-Parser | Mongoose
 
 ### Scope
 ##### What it was designed to do
