@@ -25,6 +25,18 @@ const Populate = require('./models/populate');
 // Populate.setupQuestions();
 // mongoose.connection.dropDatabase();
 
+//Verification Middleware
+function checkToken(req, res, next) {
+    jwt.verify(req.headers.auth, 'uuddlrlrba13', (err, decoded) => {
+        if (err) {
+            res.sendStatus(403)
+        } else {
+            req.token = decoded;
+            next()
+        }
+    })
+}
+
 //Routes
 app.post('/login', (req, res) => {
     User.findOne({ email: req.body.email })
@@ -45,26 +57,14 @@ app.post('/login', (req, res) => {
     })
 });
 
-// set this up to be used for app mount
+// Verify route for initial mount of app
 app.get('/verify', checkToken, (req, res) => {
     res.json({ status: 'verified'})
 })
 
-function checkToken(req, res, next) {
-    jwt.verify(req.headers.auth, 'uuddlrlrba13', (err, decoded) => {
-        if (err) {
-            res.sendStatus(403)
-            // console.log(err)
-            // next()
-        } else {
-            console.log(decoded)
-            next()
-        }
-    })
-}
-
+// Fetch route in app for retrieving randomised cards
 app.get('/cards', checkToken, (req, res) => {
-    User.findOne({ name: 'Robert' })
+    User.findOne({ email: req.token.email })
     .select('stats')
     // calculate which cards user is good at (t1) and bad at (t2)
     .then(result => {
@@ -97,8 +97,9 @@ app.get('/cards', checkToken, (req, res) => {
     })
 });
 
+// Fetch route in app for retrieving and posting user statistics
 app.get('/stats', checkToken, (req, res) => {
-    User.findOne({ name: 'Robert' })
+    User.findOne({ email: req.token.email })
         .select('-password -email')
         .then(result => {
             result.timesCorrect = result.stats.reduce((a, i) => a + i.timesCorrect, 0)
@@ -109,8 +110,8 @@ app.get('/stats', checkToken, (req, res) => {
         .then(result => res.json(result));
 });
     
-app.post('/stats', (req, res) => {
-    User.findOne({ name: 'Robert' })
+app.post('/stats', checkToken, (req, res) => {
+    User.findOne({ email: req.token.email })
     .then(result => {
 
         let index = result.stats.findIndex(e => e.identifier === req.body.identifier )
@@ -122,7 +123,7 @@ app.post('/stats', (req, res) => {
             timesCorrect: req.body.passed ? record.timesCorrect +=1 : record.timesCorrect
         })
 
-        result.save(err => err ? err : console.log('updated record'))
+        result.save(err => err ? err : null)
     })
     res.json('updated')
 });

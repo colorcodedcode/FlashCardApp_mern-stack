@@ -27,7 +27,10 @@ class TestPage extends React.Component {
   updatePlayerStats(id, pass) {
     fetch('/stats', { 
       method: 'post',
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        "Content-Type": "application/json" ,
+        "auth": localStorage.getItem('chip')
+      },
       body: JSON.stringify({ identifier: id, passed: pass})
     })
     .then(res => res.json())
